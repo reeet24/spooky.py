@@ -70,33 +70,33 @@ async def ban(ctx, user: discord.Member, *, reason = None):
     
 @commands.command()
 async def roshambo(ctx,*,choice = None):
-    aiChoice = ["rock","paper","scissors"]
-    choi = random.choice(aiChoice)
+    aiChoose = ["rock","paper","scissors"]
+    aiChoice = random.choice(aiChoose)
     if choice == None:
         await ctx.send(f'type rock, paper, or scissors')
     elif choice == "rock":
-        await ctx.send(f'my choice is: ' + choi)
-        if choi == "rock":
+        await ctx.send(f'my choice is: ' + aiChoice)
+        if aiChoice == "rock":
             await ctx.send(f'Tie')
-        elif choi == "paper":
+        elif aiChoice == "paper":
             await ctx.send(f'I win')
-        elif choi == 'scissors':
+        elif aiChoice == 'scissors':
             await ctx.send(f'I lose')
     elif choice == "paper":
-        await ctx.send(f'my choice is: ' + choi)
-        if choi == "rock":
+        await ctx.send(f'my choice is: ' + aiChoice)
+        if aiChoice == "rock":
             await ctx.send(f'I lose')
-        elif choi == "paper":
+        elif aiChoice == "paper":
             await ctx.send(f'Tie')
-        elif choi == 'scissors':
+        elif aiChoice == 'scissors':
             await ctx.send(f'I win')
     elif choice == "scissors":
-        await ctx.send(f'my choice is: ' + choi)
-        if choi == "rock":
+        await ctx.send(f'my choice is: ' + aiChoice)
+        if aiChoice == "rock":
             await ctx.send(f'I win')
-        elif choi == "paper":
+        elif aiChoice == "paper":
             await ctx.send(f'I lose')
-        elif choi == 'scissors':
+        elif aiChoice == 'scissors':
             await ctx.send(f'Tie')
 
 @commands.command(pass_context=True)

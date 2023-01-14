@@ -10,6 +10,10 @@ async def on_ready():
     await bot.load_extension('commandList')
     print(f'We have logged in as {bot.user}')
 
+@bot.command(pass_context=True)
+async def ping(ctx):
+    await ctx.send(f'Pong! `{round(bot.latency * 1000)}ms`')
+
 @bot.command()
 async def reload(ctx, choice = None):
 
