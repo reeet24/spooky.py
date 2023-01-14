@@ -1,3 +1,9 @@
+# Secret and misc
+UtilsDirectory/token.py
+UtilsDirectory/proxy_list.txt
+UtilsDirectory/shadow_bans.txt
+logs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
