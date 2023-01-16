@@ -18,9 +18,17 @@ async def say(ctx, arg = None):
     await ctx.send(arg)
 
 @commands.command()
-async def git(ctx, arg = None):
-    await log("git",ctx.author.display_name,arg,str(ctx.message.guild.id))
-    await ctx.send("this command is being worked on right now sowwy.")
+async def git(ctx, message_id: int):
+    message = await ctx.channel.fetch_message(message_id)
+    for attachment in message.attachments:
+        if not os.path.exists("git"):
+            os.mkdir("git")
+        try:
+            await attachment.save("git")
+            await ctx.send(f"Image {attachment.filename} has been saved!")
+        except Exception as e:
+            await ctx.send(f'Error: {e}\n')
+        
 
 @commands.command()
 async def help_me(ctx, index = None):

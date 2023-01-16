@@ -5,6 +5,7 @@ import random
 import datetime
 import time
 import json
+import requests
 #from quart import Quart, render_template, redirect, url_for
 #from quart_discord import DiscordOAuth2Session, requires_authorization, Unauthorized
 #from nextcord.ext import ipc
