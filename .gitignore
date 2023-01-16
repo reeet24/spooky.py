@@ -2,6 +2,7 @@
 UtilsDirectory/token.py
 UtilsDirectory/proxy_list.txt
 UtilsDirectory/shadow_bans.txt
+UtilsDirectory/whitelist.txt
 logs/
 git/
 

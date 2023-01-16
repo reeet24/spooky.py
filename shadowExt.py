@@ -20,9 +20,19 @@ async def readSb():
     f.close()
     print(shadowList)
 
+async def updateWhitelist():
+    f = open('UtilsDirectory/whitelist.txt', 'w')
+    for item in users:
+        f.write(item)
+    f.close()
+
+async def readWhitelist():
+    f = open('UtilsDirectory/whitelist.txt', 'r')
+    users = f.read()
+    f.close()
+    print(users)
+
 users = []
-repeatlist = []
-proxylist = []
 selfproxy = []
 shadowList = []
 
@@ -33,6 +43,10 @@ class shadow(commands.Cog):
         shadowList = f.read()
         f.close()
         print(shadowList)
+        f = open('UtilsDirectory/whitelist.txt', 'r')
+        users = f.read()
+        f.close()
+        print(users)
 
     async def setup(bot):
         print('Commands loaded!')
@@ -43,9 +57,6 @@ class shadow(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self,message):
         contents = message.content
-        with open('UtilsDirectory/proxy_list.txt') as p:
-            proxylist = p.readlines()
-            p.close()
         if (str(message.author.id)+"\n") in shadowList:
             try:
                 await message.delete()
@@ -53,24 +64,6 @@ class shadow(commands.Cog):
                 await message.channel.send('Error exception: Could not send message')
             finally:
                 await sblog("shadow ban",str(message.author.id),contents,str(message.guild.id))
-        elif (str(message.author.id)) in repeatlist:
-            try:
-                await message.channel.send(contents)
-            except:
-                await message.channel.send('Error exception: Could not send message')
-            finally:
-                await sblog("repeat",str(message.author.id),contents,str(message.guild.id))
-        elif (str(message.author.id)+'\n') in proxylist:
-            await message.delete()
-            if contents == None:
-                await message.channel.send("couldn't send message")
-            else:
-                try:
-                    await message.channel.send(contents)
-                except:
-                    await message.channel.send('Error exception: Could not send message')
-                finally:
-                    await sblog("proxy",str(message.author.id),contents,str(message.guild.id))
         elif (str(message.author.id)) in selfproxy:
             await message.delete()
             if contents == None:
@@ -82,16 +75,21 @@ class shadow(commands.Cog):
                     await message.channel.send('Error exception: Could not send message')
                 finally:
                     await sblog("proxy self",str(message.author.id),contents,str(message.guild.id))
-        #elif (message.author.id == 1014023330262691880):
-        #   await message.channel.send("I like Cock lol")
 
     @commands.command()
-    async def read_var(self,ctx,var = None):
-        if ctx.author.id == 643214257713971200 :
-            if var == None:
-                await ctx.send("No var selected")
-            elif var == "users":
-                await ctx.send(users)
+    async def whitelist(self,ctx, user: discord.Member):
+        if ctx.author.id == 643214257713971200:
+            if (str(user.id) + "\n") not in users:
+                users.append(str(user.id) + "\n")
+                await ctx.send(f'<@' + (str(user.id)) + '> Has been added to the whitelist')
+                print(users)
+            elif (str(user.id) + "\n") in users:
+                users.remove(str(user.id) + "\n")
+                await ctx.send(f'<@' + (str(user.id)) + '> Has been removed from the whitelist')
+                print(users)
+            await updateWhitelist()
+        else:
+            await ctx.send(f"Sorry this command is only accessable to spooky")
 
     @commands.command()
     async def proxy_self(self,ctx):
@@ -104,38 +102,6 @@ class shadow(commands.Cog):
             selfproxy.append(str(ctx.author.id))
             await ctx.send(f'Done!')
 
-    @commands.command()
-    async def proxy(self,ctx, user: discord.Member):
-        await log("Proxy",ctx.author.display_name,str(user.id),str(ctx.message.guild.id))
-        if ctx.author.id == 643214257713971200:
-            with open('UtilsDirectory/proxy_list.txt', 'a') as p:
-                p.write(str(user.id) + "\n")
-                p.close()
-            await ctx.send(f'done')
-            p.close()
-        else:
-            await ctx.send(f"Sorry this command is only accessable to spooky")
-
-    @commands.command()
-    async def repeat(self,ctx, user: discord.Member):
-        await log("Repeat",ctx.author.display_name,str(user.id),str(ctx.message.guild.id))
-        if ctx.author.id == 643214257713971200 :
-            repeatlist.append(str(user.id))
-            await ctx.send(f'done')
-        else:
-            await ctx.send(f"Sorry this command is only accessable to spooky")
-
-    @commands.command()
-    async def rp_remove(self,ctx,user: discord.member):
-        await log("Repeat remove",ctx.author.display_name,str(user.id),str(ctx.message.guild.id))
-        if ctx.author.id == 643214257713971200:
-            if str(user.id) in repeatlist:
-                repeatlist.append(str(user.id))
-                await ctx.send(f'Done!')
-            else:
-                await ctx.send(f'User not found in list')
-        else:
-            await ctx.send(f"Sorry this command is only accessable to spooky")
 
     @commands.command()
     async def shadow_ban(self,ctx, user: discord.Member):
