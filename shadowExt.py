@@ -92,6 +92,11 @@ class shadow(commands.Cog):
             await ctx.send(f"Sorry this command is only accessable to spooky")
 
     @commands.command()
+    async def id(self,ctx,user: discord.member):
+        await ctx.send(f'Debug')
+        await ctx.send(str(user.id))
+
+    @commands.command()
     async def proxy_self(self,ctx):
         if ctx.author.id in selfproxy:
             await log("Proxy self",ctx.author.display_name,"Remove",str(ctx.message.guild.id))
