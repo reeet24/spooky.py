@@ -8,15 +8,31 @@ async def sblog(logType,user,msg,guild):
     with open('logs/' + guild + '_Log.txt', 'a') as f:
         f.write(str(datetime.datetime.now()) + ": " + user + " said: " + msg + "\n")
 
+async def updateSb():
+    f = open('UtilsDirectory/shadow_bans.txt', 'w')
+    for item in shadowList:
+        f.write(item)
+    f.close()
+
+async def readSb():
+    f = open('UtilsDirectory/shadow_bans.txt', 'r')
+    shadowList = f.read()
+    f.close()
+    print(shadowList)
 
 users = []
 repeatlist = []
 proxylist = []
 selfproxy = []
+shadowList = []
 
 class shadow(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
+        f = open('UtilsDirectory/shadow_bans.txt', 'r')
+        shadowList = f.read()
+        f.close()
+        print(shadowList)
 
     async def setup(bot):
         print('Commands loaded!')
@@ -27,13 +43,10 @@ class shadow(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self,message):
         contents = message.content
-        with open('UtilsDirectory/shadow_bans.txt') as f:
-            users = f.readlines()
-            f.close()
         with open('UtilsDirectory/proxy_list.txt') as p:
             proxylist = p.readlines()
             p.close()
-        if (str(message.author.id)+"\n") in users:
+        if (str(message.author.id)+"\n") in shadowList:
             try:
                 await message.delete()
             except:
@@ -71,6 +84,14 @@ class shadow(commands.Cog):
                     await sblog("proxy self",str(message.author.id),contents,str(message.guild.id))
         #elif (message.author.id == 1014023330262691880):
         #   await message.channel.send("I like Cock lol")
+
+    @commands.command()
+    async def read_var(self,ctx,var = None):
+        if ctx.author.id == 643214257713971200 :
+            if var == None:
+                await ctx.send("No var selected")
+            elif var == "users":
+                await ctx.send(users)
 
     @commands.command()
     async def proxy_self(self,ctx):
@@ -120,10 +141,15 @@ class shadow(commands.Cog):
     async def shadow_ban(self,ctx, user: discord.Member):
         await log("Shadow Ban",ctx.author.display_name,str(user.id),str(ctx.message.guild.id))
         if ctx.author.id == 643214257713971200:
-            with open('UtilsDirectory/shadow_bans.txt', 'a') as asf:
-                asf.write(str(user.id) + "\n")
-            await ctx.send(f'done')
-            asf.close()
+            if (str(user.id) + "\n") not in shadowList:
+                shadowList.append(str(user.id) + "\n")
+                await ctx.send(f'<@' + (str(user.id)) + '> Has been Shadowbanned')
+                print(shadowList)
+            elif (str(user.id) + "\n") in shadowList:
+                shadowList.remove(str(user.id) + "\n")
+                await ctx.send(f'<@' + (str(user.id)) + '> Has been Un-Shadowbanned')
+                print(shadowList)
+            await updateSb()
         else:
             await ctx.send(f"Sorry this command is only accessable to spooky")
 
