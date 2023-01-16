@@ -27,9 +27,11 @@ async def updateWhitelist():
     f.close()
 
 async def readWhitelist():
-    f = open('UtilsDirectory/whitelist.txt', 'r')
-    users = f.read()
-    f.close()
+    users.clear()
+    b = open('UtilsDirectory/whitelist.txt', 'r')
+    for lines in b:
+        users.append(lines)
+    b.close()
     print(users)
 
 users = []
@@ -43,9 +45,10 @@ class shadow(commands.Cog):
         shadowList = f.read()
         f.close()
         print(shadowList)
-        f = open('UtilsDirectory/whitelist.txt', 'r')
-        users = f.read()
-        f.close()
+        b = open('UtilsDirectory/whitelist.txt', 'r')
+        for lines in b:
+            users.append(lines)
+        b.close()
         print(users)
 
     async def setup(bot):
@@ -80,6 +83,7 @@ class shadow(commands.Cog):
     async def whitelist(self,ctx, user: discord.Member):
         if ctx.author.id == 643214257713971200:
             if (str(user.id) + "\n") not in users:
+                await readWhitelist()
                 users.append(str(user.id) + "\n")
                 await ctx.send(f'<@' + (str(user.id)) + '> Has been added to the whitelist')
                 print(users)
@@ -106,7 +110,7 @@ class shadow(commands.Cog):
     @commands.command()
     async def shadow_ban(self,ctx, user: discord.Member):
         await log("Shadow Ban",ctx.author.display_name,str(user.id),str(ctx.message.guild.id))
-        if ctx.author.id == 643214257713971200:
+        if (str(ctx.author.id)+"\n") in users:
             if (str(user.id) + "\n") not in shadowList:
                 shadowList.append(str(user.id) + "\n")
                 await ctx.send(f'<@' + (str(user.id)) + '> Has been Shadowbanned')
@@ -117,16 +121,16 @@ class shadow(commands.Cog):
                 print(shadowList)
             await updateSb()
         else:
-            await ctx.send(f"Sorry this command is only accessable to spooky")
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
 
     @commands.command( pass_context=True)
     async def server_sb_log(self, ctx):
         server = ctx.guild.id
-        if ctx.author.id == 643214257713971200:
+        if (str(ctx.author.id)+"\n") in users:
             await log("server log",ctx.author.display_name,"none",str(ctx.message.guild.id))
             await ctx.send(file=discord.File(r'logs/' + str(server) + '_Log.txt'))
         else:
-            await ctx.send(f"Sorry this command is only accessable to spooky")
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
 
 async def setup(bot):
     await bot.add_cog(shadow(bot)) 
