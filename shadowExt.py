@@ -18,7 +18,6 @@ async def readSb():
     f = open('UtilsDirectory/shadow_bans.txt', 'r')
     shadowList = f.read()
     f.close()
-    print(shadowList)
 
 async def updateWhitelist():
     f = open('UtilsDirectory/whitelist.txt', 'w')
@@ -32,7 +31,6 @@ async def readWhitelist():
     for lines in b:
         users.append(lines)
     b.close()
-    print(users)
 
 users = []
 selfproxy = []
@@ -44,12 +42,10 @@ class shadow(commands.Cog):
         f = open('UtilsDirectory/shadow_bans.txt', 'r')
         shadowList = f.read()
         f.close()
-        print(shadowList)
         b = open('UtilsDirectory/whitelist.txt', 'r')
         for lines in b:
             users.append(lines)
         b.close()
-        print(users)
 
     async def setup(bot):
         print('Commands loaded!')
@@ -86,11 +82,11 @@ class shadow(commands.Cog):
                 await readWhitelist()
                 users.append(str(user.id) + "\n")
                 await ctx.send(f'<@' + (str(user.id)) + '> Has been added to the whitelist')
-                print(users)
+                await log("Whitelist",ctx.author.display_name,"Add",str(user.id))
             elif (str(user.id) + "\n") in users:
                 users.remove(str(user.id) + "\n")
                 await ctx.send(f'<@' + (str(user.id)) + '> Has been removed from the whitelist')
-                print(users)
+                await log("Whitelist",ctx.author.display_name,"Remove",str(user.id))
             await updateWhitelist()
         else:
             await ctx.send(f"Sorry this command is only accessable to spooky")

@@ -14,6 +14,11 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send(f'Pong! `{round(bot.latency * 1000)}ms`')
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("Sorry, that command was not found.")
+
 @bot.command()
 async def reload(ctx, choice = None):
 
