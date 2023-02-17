@@ -8,6 +8,7 @@ async def on_ready():
 
     await bot.load_extension('shadowExt')
     await bot.load_extension('commandList')
+    await bot.load_extension('econ')
     print(f'We have logged in as {bot.user}')
 
 @bot.command(pass_context=True)
@@ -30,9 +31,12 @@ async def reload(ctx, choice = None):
     elif choice == 'general':
         await bot.reload_extension('commandList')
         await ctx.send('Reloaded!')
+    elif choice == 'econ':
+        await bot.reload_extension('econ')
     elif choice == 'all':
         await bot.reload_extension('shadowExt')
         await bot.reload_extension('commandList')
+        await bot.reload_extension('econ')
         await ctx.send('Reloaded!')
     else:
         await ctx.send('Invalid Args')
