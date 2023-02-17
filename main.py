@@ -33,6 +33,7 @@ async def reload(ctx, choice = None):
         await ctx.send('Reloaded!')
     elif choice == 'econ':
         await bot.reload_extension('econ')
+        await ctx.send(f'Reloaded!')
     elif choice == 'all':
         await bot.reload_extension('shadowExt')
         await bot.reload_extension('commandList')

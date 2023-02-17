@@ -15,8 +15,10 @@ async def updateSb():
     f.close()
 
 async def readSb():
+    shadowList.clear()
     f = open('UtilsDirectory/shadow_bans.txt', 'r')
-    shadowList = f.read()
+    for lines in f:
+        shadowList.append(lines)
     f.close()
 
 async def updateWhitelist():
@@ -39,8 +41,10 @@ shadowList = []
 class shadow(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
+        shadowList.clear()
         f = open('UtilsDirectory/shadow_bans.txt', 'r')
-        shadowList = f.read()
+        for lines in f:
+            shadowList.append(lines)
         f.close()
         b = open('UtilsDirectory/whitelist.txt', 'r')
         for lines in b:
@@ -121,6 +125,7 @@ class shadow(commands.Cog):
                 await ctx.send(f'<@' + (str(user.id)) + '> Has been Un-Shadowbanned')
                 print(shadowList)
             await updateSb()
+            await readSb()
         else:
             await ctx.send(f"Sorry this command is only accessable to whitelisted users")
 
