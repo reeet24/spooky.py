@@ -82,6 +82,15 @@ class shadow(commands.Cog):
                     await sblog("proxy self",str(message.author.id),contents,str(message.guild.id))
 
     @commands.command()
+    async def list_get(self,ctx):
+        message = ""
+        if ctx.author.id == 643214257713971200:
+            for m in users:
+                message += f'\n<@{m}>'
+            message += f'\n'
+            await ctx.send(message)
+
+    @commands.command()
     async def whitelist(self,ctx, user: discord.Member):
         if ctx.author.id == 643214257713971200:
             if (str(user.id) + "\n") not in users:
