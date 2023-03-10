@@ -71,6 +71,8 @@ class shadow(commands.Cog):
             await message.delete()
             if contents == None:
                 await message.channel.send("couldn't send message")
+            elif contents == "$proxy_self":
+                print(selfproxy)
             else:
                 try:
                     await message.channel.send(contents)
@@ -102,7 +104,7 @@ class shadow(commands.Cog):
 
     @commands.command()
     async def proxy_self(self,ctx):
-        if ctx.author.id in selfproxy:
+        if str(ctx.author.id) in selfproxy:
             await log("Proxy self",ctx.author.display_name,"Remove",str(ctx.message.guild.id))
             selfproxy.remove(str(ctx.author.id))
             await ctx.send(f'Done!')
@@ -137,6 +139,44 @@ class shadow(commands.Cog):
             await ctx.send(file=discord.File(r'logs/' + str(server) + '_Log.txt'))
         else:
             await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+
+    @commands.command( pass_context=True)
+    async def vault(self, ctx, action = None, filename = None):
+        if action == 'store':
+            if (str(ctx.author.id)+"\n") in users:
+                if ctx.message.attachments:
+                    for attachment in ctx.message.attachments:
+                        url = attachment.url
+                        response = requests.get(url)
+                        with open(f'vault/{attachment.filename}', "wb") as f:
+                            f.write(response.content)
+                    await ctx.send("File downloaded successfully!")
+                await log("vault",ctx.author.display_name,"store",str(ctx.message.guild.id))
+            else:
+                await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+        elif action == 'retrieve':
+            file_path = None
+            for f in os.listdir("vault"):
+                if f == filename:
+                    file_path = os.path.join("vault", f)
+                    break
+            if file_path is None:
+                await ctx.send(f"No file with name {filename} found in the vault directory!")
+            else:
+                with open(file_path, "rb") as f:
+                    file = discord.File(f)
+                    await ctx.send(file=file)
+            await log("vault",ctx.author.display_name,"retrieve",str(ctx.message.guild.id))
+        elif action == "list":
+            files = os.listdir("vault")
+            if len(files) == 0:
+                await ctx.send("The vault directory is empty!")
+            else:
+                file_list = "\n".join(files)
+                await ctx.send(f"Files in the vault directory:```\n{file_list}```")
+            await log("vault",ctx.author.display_name,"list",str(ctx.message.guild.id))
+        elif action == None:
+            await ctx.send(f'Invalid args')
 
 async def setup(bot):
     await bot.add_cog(shadow(bot)) 
