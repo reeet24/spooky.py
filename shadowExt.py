@@ -156,10 +156,13 @@ class shadow(commands.Cog):
             if (str(ctx.author.id)+"\n") in users:
                 if ctx.message.attachments:
                     for attachment in ctx.message.attachments:
-                        url = attachment.url
-                        response = requests.get(url)
-                        with open(f'vault/{attachment.filename}', "wb") as f:
-                            f.write(response.content)
+                        if not os.path.exists("vault"):
+                            os.mkdir("vault")
+                        try:
+                            await attachment.save("vault")
+                            await ctx.send(f"Image {attachment.filename} has been saved!")
+                        except Exception as e:
+                            await ctx.send(f'Error: {e}\n')
                     await ctx.send("File downloaded successfully!")
                     await ctx.message.delete()
                 await log("vault",ctx.author.display_name,"store",str(ctx.message.guild.id))
