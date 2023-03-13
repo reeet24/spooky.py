@@ -163,7 +163,6 @@ class shadow(commands.Cog):
                             await ctx.send(f"Image {attachment.filename} has been saved!")
                         except Exception as e:
                             await ctx.send(f'Error: {e}\n')
-                    await ctx.send("File downloaded successfully!")
                     await ctx.message.delete()
                 await log("vault",ctx.author.display_name,"store",str(ctx.message.guild.id))
             else:
