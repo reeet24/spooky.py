@@ -159,7 +159,7 @@ class shadow(commands.Cog):
                         if not os.path.exists("vault"):
                             os.mkdir("vault")
                         try:
-                            await attachment.save("vault")
+                            await attachment.save(f"vault/{attachment.filename}")
                             await ctx.send(f"Image {attachment.filename} has been saved!")
                         except Exception as e:
                             await ctx.send(f'Error: {e}\n')

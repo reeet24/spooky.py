@@ -4,6 +4,7 @@ UtilsDirectory/shadow_bans.txt
 UtilsDirectory/whitelist.txt
 logs/
 git/
+vault/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
