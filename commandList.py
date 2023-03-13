@@ -18,6 +18,12 @@ async def say(ctx, arg = None):
     await ctx.send(arg)
 
 @commands.command()
+async def sayDm(ctx, user: discord.Member, arg = None):
+    await log("say",ctx.author.display_name,arg,str(ctx.message.guild.id))
+    await ctx.message.delete()
+    await user.send(arg)
+
+@commands.command()
 async def git(ctx, message_id: int):
     message = await ctx.channel.fetch_message(message_id)
     for attachment in message.attachments:
@@ -118,6 +124,7 @@ async def use_log(ctx):
 async def setup(bot):
     bot.add_command(hello)
     bot.add_command(say)
+    bot.add_command(sayDm)
     bot.add_command(git)
     bot.add_command(help_me)
     bot.add_command(kick)

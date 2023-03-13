@@ -1,0 +1,11 @@
+{
+    "name": "Common Lootbox",
+    "cost": 100,
+    "items": [
+      {"item_name": "Potion", "item_type": "consumable", "quantity": 1},
+      {"item_name": "Iron Sword", "item_type": "weapon", "quantity": 1},
+      {"item_name": "Leather Armor", "item_type": "armor", "quantity": 1},
+      {"item_name": "Gold Coin", "item_type": "currency", "quantity": 50},
+      {"item_name": "Magic Scroll", "item_type": "misc", "quantity": 1}
+    ]
+  }

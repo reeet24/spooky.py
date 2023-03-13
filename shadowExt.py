@@ -1,3 +1,4 @@
+import asyncio
 from typing import final
 
 from discord import Attachment
@@ -160,6 +161,7 @@ class shadow(commands.Cog):
                         with open(f'vault/{attachment.filename}', "wb") as f:
                             f.write(response.content)
                     await ctx.send("File downloaded successfully!")
+                    await ctx.message.delete()
                 await log("vault",ctx.author.display_name,"store",str(ctx.message.guild.id))
             else:
                 await ctx.send(f"Sorry this command is only accessable to whitelisted users")
@@ -175,7 +177,22 @@ class shadow(commands.Cog):
                 with open(file_path, "rb") as f:
                     file = discord.File(f)
                     await ctx.send(file=file)
+            await ctx.message.delete()
             await log("vault",ctx.author.display_name,"retrieve",str(ctx.message.guild.id))
+        elif action == "retMe":
+            file_path = None
+            for f in os.listdir("vault"):
+                if f == filename:
+                    file_path = os.path.join("vault", f)
+                    break
+            if file_path is None:
+                await ctx.author.send(f"No file with name {filename} found in the vault directory!")
+            else:
+                with open(file_path, "rb") as f:
+                    file = discord.File(f)
+                    await ctx.author.send(file=file)
+            await ctx.message.delete()
+            await log("vault",ctx.author.display_name,"retMe",str(ctx.message.guild.id))
         elif action == "list":
             files = os.listdir("vault")
             if len(files) == 0:
@@ -184,8 +201,31 @@ class shadow(commands.Cog):
                 file_list = "\n".join(files)
                 await ctx.send(f"Files in the vault directory:```\n{file_list}```")
             await log("vault",ctx.author.display_name,"list",str(ctx.message.guild.id))
-        elif action == None:
+        else:
             await ctx.send(f'Invalid args')
+
+    @commands.command()
+    async def mass(self, ctx, user: discord.Member, num_pings: int):
+        if (str(ctx.author.id)+"\n") in users:
+            for i in range(num_pings):
+                await ctx.send(f"{user.mention}")
+                await asyncio.sleep(0.5)
+        else:
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+    
+    @commands.command()
+    async def massDm(self, ctx, user: discord.Member, num_pings: int):
+        message_to_edit = await ctx.send("Starting loop...")
+        if (str(ctx.author.id)+"\n") in users:
+            for i in range(num_pings):
+                new_content = f"Ping {i+1} of {num_pings}."
+                await message_to_edit.edit(content=new_content)
+                await user.send(f"{user.mention}")
+                print(i)
+                await asyncio.sleep(0.5)
+        else:
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+
 
 async def setup(bot):
     await bot.add_cog(shadow(bot)) 
