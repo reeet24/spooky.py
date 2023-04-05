@@ -5,6 +5,7 @@ UtilsDirectory/whitelist.txt
 logs/
 git/
 vault/
+home/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
