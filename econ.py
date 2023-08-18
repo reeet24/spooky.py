@@ -8,13 +8,10 @@ def get_user_inventory(user_id):
             user_inventory = json.load(f)
     else:
         user_inventory = {
-                            "gold": 100,
+                            "gold": 10000,
                             "items": [
                                 
-                             ],
-                            "lootboxes": [
-                                
-                            ]
+                             ]
                         }
         with open(f"inventory/{user_id}.json", "w") as f:
             json.dump(user_inventory, f)
@@ -32,7 +29,7 @@ def add_item_to_inventory(user_id, item_name: str, item_type: str,  quantity: in
     else:
         items.append({"name": item_name, "type": item_type, "quantity": quantity})
 
-    with open("inventory.json", "w") as f:
+    with open(f"inventory/{user_id}.json", "w") as f:
         json.dump(inventory, f, indent=4)
 
 def add_gold_to_inventory(user_id, amount: int):
@@ -55,29 +52,54 @@ class Econ(commands.Cog):
             os.makedirs("lootbox")
 
     @commands.command()
-    async def viewinventory(self, ctx):
+    async def view(self, ctx, choice, optional):
         """Shows the user's inventory"""
-        inventory = get_user_inventory(ctx.author.id)
+        
+        if choice == "inventory":
+            if optional == "me":
+                inventory = get_user_inventory(ctx.author.id)
+            else:
+                inventory = get_user_inventory(str(optional))
 
-        # Send a message listing all the items in the inventory
-        if not inventory:
-            await ctx.send("Your inventory is empty.")
-        else:
-            gold = inventory["gold"]
-            items = inventory["items"]
-            lootboxes = inventory["lootboxes"]
+            # Send a message listing all the items in the inventory
+            if not inventory:
+                await ctx.send("Your inventory is empty.")
+            else:
+                gold = inventory["gold"]
+                items = inventory["items"]
 
-            items_str = "\n".join(f"- {item['name']} (x{item['quantity']})" for item in items)
-            lootboxes_str = "\n".join(f"- {box['name']} (x{box['count']})" for box in lootboxes)
+                items_str = "\n".join(f"- {item['name']} (x{item['quantity']})" for item in items)
 
-            message = f"```Here is your inventory:\n\nGold: {gold}\n\nItems:\n{items_str}\n\nLootboxes:\n{lootboxes_str}```"
+                message = f"```Here is your inventory:\n\nGold: {gold}\n\nItems:\n{items_str}```"
+                await ctx.send(message)
+        elif choice == "lootbox":
+            lootbox_file = f"lootbox/{optional}.json"
+            if not os.path.exists(lootbox_file):
+                await ctx.send(f"{optional} is not a valid lootbox.")
+                return
+
+            with open(lootbox_file, "r") as f:
+                lootbox_data = json.load(f)
+                f.close()
+
+            items = lootbox_data['items']
+            cost = lootbox_data['cost']
+
+            items_str = "\n".join(f"- {item['item_name']} (x{item['quantity']})" for item in items)
+
+            message = f"```Here is the {lootbox_data['name']}\n\nCost: {cost}\n\nItems:\n{items_str}```\n"
             await ctx.send(message)
+
+
+#await ctx.send('Check!')
 
     
     @commands.command()
-    async def olb(self, ctx, lootbox_name: str):
+    async def lootbox(self, ctx, lootbox_name: str):
         """Opens a lootbox and rewards the user with a random item"""
         # Load the lootbox data from a JSON file
+
+        player_inv = get_user_inventory(ctx.author.id)
         lootbox_file = f"lootbox/{lootbox_name}.json"
         if not os.path.exists(lootbox_file):
             await ctx.send(f"{lootbox_name} is not a valid lootbox.")
@@ -85,43 +107,49 @@ class Econ(commands.Cog):
 
         with open(lootbox_file, "r") as f:
             lootbox_data = json.load(f)
+            f.close()
+
+        if player_inv['gold'] < lootbox_data['cost']:
+            await ctx.send(f"You ain't got the gold for that bub. Sorry man.")
+            return
+        else:
+            add_gold_to_inventory(ctx.author.id, (int(lootbox_data['cost']) * -1))
 
         # Choose a random item from the lootbox and reward the user
-        loot = random.choice(lootbox_data["items"])
+        loot = random.choices(lootbox_data["items"],lootbox_data["weights"])
+        loot = loot[0]
+        
         item_name = loot["item_name"]
         item_type = loot["item_type"]
         item_quantity = loot["quantity"]
+
         await ctx.send(f"You got {item_quantity} {item_name}(s) from the {lootbox_name} lootbox!")
-        
-        add_item_to_inventory(ctx.author.id, item_name, item_type, item_quantity)
 
-    @commands.command()
-    async def createlootbox(self, ctx, lootbox_name: str, *, lootbox_data: str):
-        """Creates a new lootbox with the given name and data"""
-        # Parse the lootbox data as JSON
-        try:
-            lootbox_items = json.loads(lootbox_data)
-        except json.JSONDecodeError:
-            await ctx.send("Invalid lootbox data format. Please provide a valid JSON object.")
-            return
-
-        # Save the lootbox data to a JSON file
-        lootbox_file = f"lootbox/{lootbox_name}.json"
-        with open(lootbox_file, "w") as f:
-            json.dump(lootbox_items, f)
-
-        await ctx.send(f"Created lootbox {lootbox_name} with data: {lootbox_data}")
-
-    @commands.command()
-    async def deletelootbox(self, ctx, lootbox_name: str):
-        """Deletes a lootbox with the given name"""
-        # Delete the lootbox file
-        lootbox_file = f"lootbox/{lootbox_name}.json"
-        if os.path.exists(lootbox_file):
-            os.remove(lootbox_file)
-            await ctx.send(f"Deleted lootbox {lootbox_name}")
+        if item_name == "Gold Coin":
+            add_gold_to_inventory(ctx.author.id,int(item_quantity))
         else:
-            await ctx.send(f"{lootbox_name} is not a valid lootbox.")
+            add_item_to_inventory(ctx.author.id, item_name, item_type, item_quantity)
+
+    @commands.command()
+    async def sell(self, ctx, item, amount: int):
+        """Sells the desired item"""
+        inventory = get_user_inventory(ctx.author.id)
+        with open(f"inventory/prices.json", "r") as f:
+            price_chart = json.load(f)
+            f.close()
+
+        # Send a message listing all the items in the inventory
+        if not inventory["items"]:
+            await ctx.send("Your inventory is empty.")
+        else:
+            gold = inventory["gold"]
+            items = inventory["items"]
+
+            if not items[f'{item}']:
+                await ctx.send(f"You don't have any {item} in your inventory")
+            
+            await ctx.send(f"{items}")
+
 
 async def setup(client):
     await client.add_cog(Econ(client))

@@ -1,0 +1,12 @@
+{
+    "name": "Boinker Lootbox",
+    "cost": 1000,
+    "items": [
+      {"item_name": "bonk keychain", "item_type": "keychain", "quantity": 1},
+      {"item_name": "luciel temp tattoo", "item_type": "sticker", "quantity": 1},
+      {"item_name": "gisa figure", "item_type": "figure", "quantity": 1},
+      {"item_name": "strawberry hatsune avis figure", "item_type": "figure", "quantity": 1},
+      {"item_name": "giant sleeping atticus plush", "item_type": "plush", "quantity": 1}
+    ],
+    "weights": [16,8,4,2,1]
+}

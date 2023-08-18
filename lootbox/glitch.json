@@ -1,0 +1,13 @@
+{
+    "name": "Glitch Lootbox",
+    "cost": 400,
+    "items": [
+        {"item_name": "Triangular Fragment", "item_type": "fragment", "quantity": 5},
+        {"item_name": "Square Fragment", "item_type": "fragment", "quantity": 5},
+        {"item_name": "Trapezoidal Fragment", "item_type": "fragment", "quantity": 5},
+        {"item_name": "Rhombus Fragment", "item_type": "fragment", "quantity": 5},
+        {"item_name": "Dusk Slime", "item_type": "remnant", "quantity": 1},
+        {"item_name": "Star Fragments", "item_type": "fragments", "quantity": 2}
+    ],
+    "weights": [32,16,8,4,2,1]
+}

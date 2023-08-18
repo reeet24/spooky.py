@@ -32,6 +32,7 @@ class vaulting(commands.Cog):
 
     @commands.command( pass_context=True)
     async def vault(self, ctx, action = None, filename = None):
+        await readWhitelist()
         if action == 'store':
             if (str(ctx.author.id)+"\n") in users:
                 if ctx.message.attachments:

@@ -1,0 +1,13 @@
+{
+    "name": "Runic Lootbox",
+    "cost": 1000,
+    "items": [
+      {"item_name": "Ewhaz", "item_type": "rune", "quantity": 1},
+      {"item_name": "Jera", "item_type": "rune", "quantity": 1},
+      {"item_name": "Perthro", "item_type": "rune", "quantity": 1},      
+      {"item_name": "Dalgaz", "item_type": "rune", "quantity": 1},
+      {"item_name": "Blank Rune", "item_type": "rune", "quantity": 1},
+      {"item_name": "Black Rune", "item_type": "rune", "quantity": 1}
+    ],
+    "weights": [16,8,6,4,2,1]
+}

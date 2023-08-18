@@ -1,0 +1,12 @@
+{
+    "name": "Poke lootbox",
+    "cost": 200,
+    "items": [
+      {"item_name": "Poke plushie", "item_type": "Plush", "quantity": 1},
+      {"item_name": "Poke chibi figure", "item_type": "Figure", "quantity": 1},
+      {"item_name": "Poke cybernetic hand replica", "item_type": "Hand", "quantity": 1},
+      {"item_name": "Poke's suit", "item_type": "Clothing", "quantity": 1},
+      {"item_name": "Golden Poke chibi figure", "item_type": "Chaser", "quantity": 1}
+    ],
+    "weights": [64,64,32,32,1]
+}

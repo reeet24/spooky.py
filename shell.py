@@ -47,5 +47,18 @@ class shell(commands.Cog):
             print(cwd)
             await ctx.send(cwd)
 
+    @commands.command()
+    async def r34(self,ctx,tag1 = None, tag2 = None, tag3 = None, tag4 = None):
+        tagList = []
+
+        if not tag1 == None: tags.append(tag1)
+        if not tag2 == None: tags.append(tag2)
+        if not tag3 == None: tags.append(tag3)
+        if not tag4 == None: tags.append(tag4)
+
+        r = requests.get(f'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index', limit=(1), tags=(tagList))
+        print(r)
+        await ctx.send(r)
+
 async def setup(bot):
     await bot.add_cog(shell(bot))

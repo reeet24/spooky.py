@@ -1,0 +1,13 @@
+{
+    "name": "Rare Lootbox",
+    "cost": 100,
+    "items": [
+      {"item_name": "Potion", "item_type": "consumable", "quantity": 2},
+      {"item_name": "Iron Sword", "item_type": "weapon", "quantity": 2},
+      {"item_name": "Leather Armor", "item_type": "armor", "quantity": 2},
+      {"item_name": "Gold Coin", "item_type": "currency", "quantity": 100},
+      {"item_name": "Magic Scroll", "item_type": "misc", "quantity": 2},
+      {"item_name": "Error null", "item_type": "null", "quantity": 1}
+    ],
+    "weights": [5,8,10,4,3,1]
+}

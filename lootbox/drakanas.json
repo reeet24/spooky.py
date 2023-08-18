@@ -1,0 +1,12 @@
+{
+    "name": "Drakanas Lootbox",
+    "cost": 200,
+    "items": [
+      {"item_name": "Bloodicium Token", "item_type": "token", "quantity": 10},
+      {"item_name": "Akelcite Crystal", "item_type": "crystal", "quantity": 1},
+      {"item_name": "Akelcite Shield", "item_type": "shield", "quantity": 1},
+      {"item_name": "Bloodicium Sword", "item_type": "weapon", "quantity": 1},
+      {"item_name": "Mossidium Core", "item_type": "core", "quantity": 1}
+    ],
+    "weights": [20,15,10,5,1]
+}

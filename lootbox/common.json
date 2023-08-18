@@ -7,5 +7,6 @@
       {"item_name": "Leather Armor", "item_type": "armor", "quantity": 1},
       {"item_name": "Gold Coin", "item_type": "currency", "quantity": 50},
       {"item_name": "Magic Scroll", "item_type": "misc", "quantity": 1}
-    ]
-  }
+    ],
+    "weights": [4,8,16,2,1]
+}

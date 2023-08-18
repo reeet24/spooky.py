@@ -158,6 +158,15 @@ class shadow(commands.Cog):
                 await asyncio.sleep(0.5)
         else:
             await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+
+    @commands.command()
+    async def cube(self, ctx, user: discord.Member, num_pings: int):
+        if (str(ctx.author.id)+"\n") in users:
+            for i in range(num_pings):
+                await ctx.send(f"{user.mention}\nhttps://cdn.discordapp.com/attachments/1110381357743476776/1116935216326516856/39F8AE24-299D-41B4-A0AA-7FDFBA168DCA.jpg")
+                await asyncio.sleep(0.5)
+        else:
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
     
     @commands.command()
     async def massDm(self, ctx, user: discord.Member, num_pings: int):
@@ -167,6 +176,19 @@ class shadow(commands.Cog):
                 new_content = f"Ping {i+1} of {num_pings}."
                 await message_to_edit.edit(content=new_content)
                 await user.send(f"{user.mention}")
+                print(i)
+                await asyncio.sleep(0.5)
+        else:
+            await ctx.send(f"Sorry this command is only accessable to whitelisted users")
+
+    @commands.command()
+    async def cubeDm(self, ctx, user: discord.Member, num_pings: int):
+        message_to_edit = await ctx.send("Starting loop...")
+        if (str(ctx.author.id)+"\n") in users:
+            for i in range(num_pings):
+                new_content = f"Ping {i+1} of {num_pings}."
+                await message_to_edit.edit(content=new_content)
+                await user.send(f"{user.mention}\nhttps://cdn.discordapp.com/attachments/1110381357743476776/1116935216326516856/39F8AE24-299D-41B4-A0AA-7FDFBA168DCA.jpg")
                 print(i)
                 await asyncio.sleep(0.5)
         else:
