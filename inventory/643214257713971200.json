@@ -1,13 +1,95 @@
 {
-    "gold": 500, 
+    "gold": 9999999999999999999999999999999999999999999999999999999925800,
     "items": [
-        {"name": "Potion", "type": "consumable", "quantity": 3}, 
-        {"name": "Iron Sword", "type": "weapon", "quantity": 1}, 
-        {"name": "Leather Armor", "type": "armor", "quantity": 1}
-    ], 
-    "lootboxes": [
-        {"name": "Common Lootbox", "count": 3}, 
-        {"name": "Rare Lootbox", "count": 1}, 
-        {"name": "Legendary Lootbox", "count": 0}
+        {
+            "name": "Jera",
+            "type": "rune",
+            "quantity": 9
+        },
+        {
+            "name": "Perthro",
+            "type": "rune",
+            "quantity": 10
+        },
+        {
+            "name": "Ewhaz",
+            "type": "rune",
+            "quantity": 13
+        },
+        {
+            "name": "Dalgaz",
+            "type": "rune",
+            "quantity": 3
+        },
+        {
+            "name": "Blank Rune",
+            "type": "rune",
+            "quantity": 3
+        },
+        {
+            "name": "Black Rune",
+            "type": "rune",
+            "quantity": 1
+        },
+        {
+            "name": "Mossidium Core",
+            "type": "core",
+            "quantity": 1
+        },
+        {
+            "name": "Bloodicium Token",
+            "type": "token",
+            "quantity": 90
+        },
+        {
+            "name": "Akelcite Crystal",
+            "type": "crystal",
+            "quantity": 7
+        },
+        {
+            "name": "bonk keychain",
+            "type": "keychain",
+            "quantity": 13
+        },
+        {
+            "name": "Triangular Fragment",
+            "type": "fragment",
+            "quantity": 5
+        },
+        {
+            "name": "Poke chibi figure",
+            "type": "Figure",
+            "quantity": 34
+        },
+        {
+            "name": "Poke's suit",
+            "type": "Clothing",
+            "quantity": 16
+        },
+        {
+            "name": "Poke cybernetic hand replica",
+            "type": "Hand",
+            "quantity": 16
+        },
+        {
+            "name": "Poke plushie",
+            "type": "Plush",
+            "quantity": 24
+        },
+        {
+            "name": "Golden Poke chibi figure",
+            "type": "Chaser",
+            "quantity": 1
+        },
+        {
+            "name": "luciel temp tattoo",
+            "type": "sticker",
+            "quantity": 8
+        },
+        {
+            "name": "giant sleeping atticus plush",
+            "type": "plush",
+            "quantity": 2
+        }
     ]
 }

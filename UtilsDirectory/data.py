@@ -17,7 +17,7 @@ secret_token = getSP("token")
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='$',intents=intents)
+bot = commands.Bot(command_prefix='d$',intents=intents)
 
 async def log(cmd,user,arg,guild):
     print(str(datetime.datetime.now()) + ": " + user + " used: " + cmd + " with " + arg + " In " + guild)

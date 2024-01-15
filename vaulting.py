@@ -18,11 +18,6 @@ users = []
 class vaulting(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        users.clear()
-        b = open('UtilsDirectory/whitelist.txt', 'r')
-        for lines in b:
-            users.append(lines)
-        b.close()
 
     async def setup(bot):
         print('Commands loaded!')
