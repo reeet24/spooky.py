@@ -162,7 +162,7 @@ def findServerWhitelist(serverId, userId, level):
 
 
 async def readServerSb(serverId):
-    if not os.path.exists(f'UtilsDirectory/servers/{serverId}.json'): return 0
+    if not os.path.exists(f'UtilsDirectory/servers/{serverId}.json'): return
     temp = []
     b = f'UtilsDirectory/servers/{serverId}.json'
     with open(b, "r") as f:
