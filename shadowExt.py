@@ -304,10 +304,12 @@ class Moderation(commands.Cog):
             await ctx.send(f'Server with ID {ctx.message.guild.id} already registered')
             return
 
-        user_id = 643214257713971200
-
+        print('Debug')
+        
         owner = ctx.guild.owner_id
         #user = await client.fetch_user(user_id)
+
+        print('Debug')
 
         temp = {
                     "owner": owner,
@@ -320,11 +322,16 @@ class Moderation(commands.Cog):
                     "shadow_bans": [
                     ]
                 }
+
+        print('Debug')
+
         with open(f"UtilsDirectory/servers/{ctx.message.guild.id}.json", "w") as f:
             json.dump(temp, f, indent=4)
+
+        print('Debug')
+
         await ctx.send(f'Done!')
         await ctx.send(f'<@{owner}> Has been given owner permissions')
-        await user.send(f'<@{ctx.author.id}> Has registered "{ctx.message.guild.id}"!')
 
     @commands.command()
     async def global_whitelist(self,ctx, user: discord.Member, level = None):
