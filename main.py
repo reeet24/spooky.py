@@ -1,7 +1,4 @@
 from UtilsDirectory.data import *
-import logging
-
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 
 @bot.event
 async def on_ready():
@@ -48,4 +45,4 @@ async def reload(ctx, choice = None):
         await ctx.send('Invalid Args')
 
 
-bot.run(secret_token, log_handler=handler)
+bot.run(secret_token)

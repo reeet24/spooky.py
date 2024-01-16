@@ -249,6 +249,7 @@ class Moderation(commands.Cog):
                 await message.channel.send(f'An exception occured: {error}')
             finally:
                 await sblog("shadow ban",str(message.author.id),contents,str(message.guild.id))
+        await bot.process_commands(message)
 
     @commands.command()
     async def checkPermissions(self, ctx, user: discord.Member, level = None):
